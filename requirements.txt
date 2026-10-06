@@ -1,0 +1,2 @@
+# The backend's packages live in backend/requirements.txt (so it can be installed from either folder).
+-r backend/requirements.txt

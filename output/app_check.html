@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Customs — App Check (Problem 11)</title>
+    <style>
+      :root {
+        --yale: #00356b;
+        --ink: #0a1f3d;
+        --blue: #286dc0;
+        --tint: #e9f0f8;
+        --paper: #fbf8f2;
+        --line: #dfe5ee;
+        --muted: #5a6477;
+        --bulb: #ffcf3f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        line-height: 1.55;
+      }
+      .band {
+        background: var(--yale);
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        font-size: 0.82rem;
+        padding: 8px 16px;
+      }
+      header.intro {
+        background: linear-gradient(135deg, var(--yale), var(--ink));
+        color: #fff;
+        padding: 44px 24px 40px;
+        text-align: center;
+      }
+      header.intro h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      header.intro p {
+        margin: 12px auto 0;
+        max-width: 760px;
+        color: rgba(255, 255, 255, 0.86);
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+      nav.toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 32px;
+      }
+      nav.toc a {
+        text-decoration: none;
+        color: var(--yale);
+        font-weight: 700;
+        border: 2px solid var(--yale);
+        border-radius: 999px;
+        padding: 6px 14px;
+        background: #fff;
+      }
+      section.check {
+        background: #fff;
+        border: 2px solid var(--ink);
+        border-radius: 14px;
+        box-shadow: 6px 6px 0 #8db8ea;
+        padding: 24px 24px 28px;
+        margin-bottom: 40px;
+      }
+      section.check h2 {
+        margin: 0 0 4px;
+        color: var(--yale);
+        font-size: 1.5rem;
+      }
+      .tag {
+        display: inline-block;
+        background: var(--bulb);
+        color: var(--ink);
+        font-weight: 800;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 2px 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      figure {
+        margin: 16px 0 0;
+      }
+      figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+      }
+      figcaption {
+        margin-top: 10px;
+        font-size: 1.02rem;
+      }
+      .db {
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: var(--tint);
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #26324a;
+      }
+      .db strong { color: var(--yale); }
+      footer.note {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.88rem;
+        padding: 0 20px 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="band">YALE SOM - Yonghyuk Choi</div>
+
+    <header class="intro">
+      <h1>Campus Customs — App Check</h1>
+      <p>
+        Three checks of the running website (React + Vite front end, FastAPI + PydanticAI back end,
+        model <code>gpt-6-luna</code> via Portkey). Screenshots were taken in a guest session on
+        2026-10-06, and every price and stock number shown was compared with
+        <code>data/campus_customs.db</code> before the screenshot was kept.
+      </p>
+    </header>
+
+    <main>
+      <nav class="toc" aria-label="Checks">
+        <a href="#check-1">1 · Honest price &amp; stock in chat</a>
+        <a href="#check-2">2 · Category search → result cards</a>
+        <a href="#check-3">3 · Usability: tabs &amp; filters</a>
+      </nav>
+
+      <section class="check" id="check-1">
+        <span class="tag">Check 1</span>
+        <h2>Chat answers with the real price and stock — including "sold out"</h2>
+        <figure>
+          <img src="app_check_images/chat_price_stock.png" alt="Ask Dan chat on the Fencing Left Chest Hoodie page answering a price and size question" />
+          <figcaption>
+            On the Fencing Left Chest Hoodie page, the shopper asks "How much is this hoodie, and do you have it in large?".
+            Ask Dan gives the database price ($68), says plainly that large is sold out, and offers three similar
+            hoodies that do have large in stock, with how many are left and product cards.
+          </figcaption>
+        </figure>
+        <p class="db">
+          <strong>Database check:</strong> price $68.00; size L quantity 0 (also XS and XXL 0).
+          Alternatives in L: Crew Left Chest Hoodie 8, Squash Left Chest Hoodie 25, Volleyball Left Chest Hoodie 8.
+          All match the answer.
+        </p>
+      </section>
+
+      <section class="check" id="check-2">
+        <span class="tag">Check 2</span>
+        <h2>Category search in chat shows dynamic product cards</h2>
+        <figure>
+          <img src="app_check_images/search_cards.png" alt="Ask Dan answering 'What hoodies do you have?' with product cards" />
+          <figcaption>
+            Asking "What hoodies do you have?" makes the agent search the catalogue and return matching hoodies as
+            clickable cards (photo, name, short description, price, sizes in stock), built from the database at the moment of the answer.
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="app_check_images/search_see_all.png" alt="Products page filtered to hoodies after clicking See all 25 hoodies" />
+          <figcaption>
+            The answer ends with a "See all 25 hoodies" ticket; clicking it opens the Products page with the Hoodies
+            filter applied, and the page shows the same 25 pieces the chat promised.
+          </figcaption>
+        </figure>
+        <p class="db">
+          <strong>Database check:</strong> the catalogue has 25 hoodies (full-zip hoodies are a separate category); the chat says 25, the link says 25, and the page header shows "25 pieces".
+        </p>
+      </section>
+
+      <section class="check" id="check-3">
+        <span class="tag">Check 3</span>
+        <h2>Usability feature: category tabs, "Shop for" collections and filters</h2>
+        <figure>
+          <img src="app_check_images/filters.png" alt="Products page filtered to Family hoodies with size XXL in stock" />
+          <figcaption>
+            The Products page combines a category tab (Hoodies), a "Shop for" collection (Family) and the
+            "My size is in stock" filter (XXL): 5 pieces remain, each badged "XXL in stock", with removable filter chips and live counts on every option.
+          </figcaption>
+        </figure>
+        <p class="db">
+          <strong>Database check:</strong> family hoodies with XXL quantity &gt; 0 are exactly Yale Aunt, Dad, Grandma, Grandpa and Mom Hoodie (5),
+          the same five the page shows. URL: <code>/products?collection=family&amp;category=hoodies&amp;size=XXL</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="note">
+      Images are in <code>app_check_images/</code> next to this file. Open this file directly (double-click); no server is needed to view it.
+    </footer>
+    <div class="band">YALE SOM - Yonghyuk Choi</div>
+  </body>
+</html>

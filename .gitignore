@@ -1,0 +1,42 @@
+# ---- Secrets: never commit ----
+# Copy .env.example to .env and fill it in locally. Only the example is committed.
+.env
+.env.*
+!.env.example
+
+# ---- Course data: the database and product images are NOT committed ----
+# Unzip the course's data.zip into this folder to get data/campus_customs.db and data/products/.
+# data/products_white/ (white-background copies made at start-up) also lives in data/.
+data/
+data.zip
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# ---- Front end ----
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+
+# ---- Runtime leftovers ----
+output/*.tmp
+output/audit_trail.broken-*.json
+*.log
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.claude/
+.DS_Store
+Thumbs.db
+desktop.ini
